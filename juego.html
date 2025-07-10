@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CosmoVenture - Juegos Galácticos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <!-- SONIDO DE FONDO GALÁCTICO -->
+  <audio id="bg-sound" src="sound/ambient-space.mp3" autoplay loop></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgSound = document.getElementById("bg-sound");
+
+      // Permite reproducir el sonido tras un clic (por bloqueo de navegador)
+      const enableAudio = () => {
+        bgSound.volume = 0.01; // Puedes ajustar el volumen
+        bgSound.play().catch(() => {});
+        document.removeEventListener("click", enableAudio);
+      };
+
+      document.addEventListener("click", enableAudio);
+    });
+  </script>
+
+  <header>
+    <h1>CosmoVenture</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="universo.html">Universo</a></li>
+        <li><a class="active" href="juego.html">Juego</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Clasificación</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Registro -->
+    <section id="registro" class="game-section">
+      <h2>Registro de Jugador</h2>
+      <input type="text" id="playerName" placeholder="Ingresa tu nombre" aria-label="Nombre del jugador" />
+      <button id="startBtn" class="btn-glow" disabled>Comenzar Juegos</button>
+      <p id="regFeedback" class="feedback"></p>
+    </section>
+
+    <!-- Selección de juego -->
+    <section id="seleccion-juego" class="game-section hidden">
+      <h2>Selecciona un Juego Galáctico</h2>
+      <div class="game-selection-grid">
+        <button class="btn-glow" data-game="quizGame">Quiz Cósmico</button>
+        <button class="btn-glow" data-game="starCatcherGame">Cazador de Estrellas</button>
+        <button class="btn-glow" data-game="guessPlanetGame">Adivina el Planeta</button>
+        <button class="btn-glow" data-game="memoryGame">Memoria Galáctica</button>
+        <button class="btn-glow" data-game="escapeGame">Escape Cósmico</button>
+      </div>
+      <button id="verRankingBtn" class="btn-glow">Ver Ranking</button>
+    </section>
+
+    <!-- 1. Quiz Cósmico -->
+    <section id="quizGame" class="game-section hidden" aria-label="Quiz Cósmico">
+      <h2>Quiz Cósmico</h2>
+      <div id="quizContainer">
+        <div id="questionBox"><p></p></div>
+        <ul id="optionsList"></ul>
+        <div class="feedback" id="quizFeedback"></div>
+        <button id="nextQuestion" class="btn-glow hidden">Siguiente Pregunta</button>
+      </div>
+    </section>
+
+    <!-- 2. Cazador de Estrellas -->
+    <section id="starCatcherGame" class="game-section hidden" aria-label="Cazador de Estrellas">
+      <h2>Cazador de Estrellas</h2>
+      <canvas id="starCanvas" width="600" height="400" aria-label="Lienzo de juego para atrapar estrellas"></canvas>
+      <div class="score-display" aria-live="polite">Puntos: 0</div>
+      <button id="startStarGame" class="btn-glow">Iniciar Juego</button>
+      <button id="finishStarGame" class="btn-glow hidden">Terminar Juego</button>
+    </section>
+
+    <!-- 3. Adivina el Planeta -->
+    <section id="guessPlanetGame" class="game-section hidden" aria-label="Adivina el Planeta">
+      <h2>Adivina el Planeta</h2>
+      <p id="planetHint"></p>
+      <input type="text" id="planetAnswer" placeholder="Escribe tu respuesta aquí" aria-label="Respuesta del planeta" />
+      <button id="submitPlanet" class="btn-glow">Enviar</button>
+      <p class="feedback" id="planetFeedback"></p>
+      <button id="finishGuessGame" class="btn-glow hidden">Terminar Juego</button>
+    </section>
+
+    <!-- 4. Memoria Galáctica -->
+    <section id="memoryGame" class="game-section hidden" aria-label="Memoria Galáctica">
+      <h2>Memoria Galáctica</h2>
+      <p>Encuentra los pares de planetas iguales.</p>
+      <div id="memoryGrid" class="memory-grid" aria-live="polite"></div>
+      <div class="feedback" id="memoryFeedback"></div>
+      <button id="resetMemory" class="btn-glow">Reiniciar Memoria</button>
+    </section>
+
+    <!-- 5. Escape Cósmico -->
+    <section id="escapeGame" class="game-section hidden" aria-label="Escape Cósmico">
+      <h2>Escape Cósmico</h2>
+      <p>¡Adivina el número espacial entre 1 y 30!</p>
+      <input type="number" id="escapeInput" min="1" max="30" aria-label="Número para adivinar" />
+      <button id="submitEscape" class="btn-glow">Adivinar</button>
+      <p class="feedback" id="escapeFeedback"></p>
+      <button id="finishEscapeGame" class="btn-glow hidden">Terminar Juego</button>
+    </section>
+
+    <!-- Ranking -->
+    <section id="rankingSection" class="game-section hidden" aria-label="Ranking de jugadores">
+      <h2>Ranking de Jugadores</h2>
+      <table>
+        <thead>
+          <tr><th>Nombre</th><th>Puntuación</th><th>Juego</th></tr>
+        </thead>
+        <tbody id="rankingBody"></tbody>
+      </table>
+      <button id="volverSeleccion" class="btn-glow">Volver a Juegos</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CosmoVenture. Proyecto educativo.</p>
+  </footer>
+
+  <script>
+    // --- Registro de jugador ---
+    const playerNameInput = document.getElementById('playerName');
+    const startBtn = document.getElementById('startBtn');
+    const regFeedback = document.getElementById('regFeedback');
+
+    playerNameInput.addEventListener('input', () => {
+      startBtn.disabled = playerNameInput.value.trim().length === 0;
+      regFeedback.textContent = '';
+    });
+
+    startBtn.addEventListener('click', () => {
+      if (playerNameInput.value.trim().length === 0) {
+        regFeedback.textContent = "Por favor, ingresa un nombre válido.";
+        return;
+      }
+      playerName = playerNameInput.value.trim();
+      document.getElementById('registro').classList.add('hidden');
+      document.getElementById('seleccion-juego').classList.remove('hidden');
+    });
+
+    // Variables globales
+    let playerName = "";
+    let currentGame = null;
+
+    // Selección de juego
+    const gameButtons = document.querySelectorAll('.game-selection-grid button');
+    gameButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentGame = btn.getAttribute('data-game');
+        document.getElementById('seleccion-juego').classList.add('hidden');
+        mostrarJuego(currentGame);
+      });
+    });
+
+    // Mostrar juego
+    function mostrarJuego(gameId) {
+      document.querySelectorAll('.game-section').forEach(sec => {
+        if (!['registro', 'seleccion-juego', 'rankingSection'].includes(sec.id)) {
+          sec.classList.add('hidden');
+        }
+      });
+      document.getElementById(gameId).classList.remove('hidden');
+
+      // Init juegos
+      if (gameId === 'quizGame') initQuizGame();
+      else if (gameId === 'starCatcherGame') initStarCatcher();
+      else if (gameId === 'guessPlanetGame') initGuessPlanet();
+      else if (gameId === 'memoryGame') initMemoryGame();
+      else if (gameId === 'escapeGame') initEscapeGame();
+    }
+
+    // Volver a selección
+    document.getElementById('volverSeleccion').addEventListener('click', () => {
+      document.getElementById('rankingSection').classList.add('hidden');
+      document.getElementById('seleccion-juego').classList.remove('hidden');
+    });
+
+    // Mostrar ranking
+    document.getElementById('verRankingBtn').addEventListener('click', () => {
+      document.getElementById('seleccion-juego').classList.add('hidden');
+      cargarRanking();
+      document.getElementById('rankingSection').classList.remove('hidden');
+    });
+
+    // === 1. Quiz Cósmico ===
+    const quizQuestions = [
+      { question: "¿Cuál es el planeta más grande del sistema solar?", options: ["Tierra", "Marte", "Júpiter", "Venus"], answer: 2 },
+      { question: "¿Cuál es el planeta conocido como el 'Planeta Rojo'?", options: ["Saturno", "Marte", "Mercurio", "Neptuno"], answer: 1 },
+      { question: "¿Cuál es la estrella más cercana a la Tierra?", options: ["Sirius", "Proxima Centauri", "Sol", "Betelgeuse"], answer: 2 },
+      { question: "¿Cuál planeta tiene un gran anillo visible?", options: ["Júpiter", "Saturno", "Urano", "Neptuno"], answer: 1 },
+      { question: "¿Cuál es el planeta más caliente?", options: ["Mercurio", "Venus", "Marte", "Tierra"], answer: 1 }
+    ];
+
+    let quizIndex = 0;
+    let quizScore = 0;
+    const questionBox = document.getElementById('questionBox').querySelector('p');
+    const optionsList = document.getElementById('optionsList');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const nextQuestionBtn = document.getElementById('nextQuestion');
+
+    function initQuizGame() {
+      quizIndex = 0;
+      quizScore = 0;
+      quizFeedback.textContent = '';
+      nextQuestionBtn.classList.add('hidden');
+      loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+      const q = quizQuestions[quizIndex];
+      questionBox.textContent = q.question;
+      optionsList.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.textContent = opt;
+        li.className = 'option';
+        li.tabIndex = 0;
+        li.addEventListener('click', () => quizAnswer(i));
+        li.addEventListener('keypress', e => { if(e.key === 'Enter') quizAnswer(i); });
+        optionsList.appendChild(li);
+      });
+      quizFeedback.textContent = '';
+      nextQuestionBtn.classList.add('hidden');
+    }
+
+    function quizAnswer(selected) {
+      const q = quizQuestions[quizIndex];
+      if (selected === q.answer) {
+        quizFeedback.textContent = "✅ ¡Correcto! +10 puntos";
+        quizScore += 10;
+      } else {
+        quizFeedback.textContent = "❌ Incorrecto.";
+      }
+      [...optionsList.children].forEach(li => li.classList.add('disabled'));
+      nextQuestionBtn.classList.remove('hidden');
+    }
+
+    nextQuestionBtn.addEventListener('click', () => {
+      quizIndex++;
+      if (quizIndex < quizQuestions.length) {
+        loadQuizQuestion();
+      } else {
+        quizFeedback.textContent = `Juego terminado. Puntuación total: ${quizScore}`;
+        guardarPuntuacion(playerName, quizScore, 'Quiz Cósmico');
+        nextQuestionBtn.classList.add('hidden');
+        setTimeout(() => {
+          document.getElementById('quizGame').classList.add('hidden');
+          document.getElementById('seleccion-juego').classList.remove('hidden');
+        }, 3000);
+      }
+    });
+
+    // === 2. Cazador de Estrellas ===
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let score = 0;
+    let gameActive = false;
+
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = 10 + Math.random() * 10;
+        this.speed = 0.5 + Math.random();
+      }
+      draw() {
+        const gradient = ctx.createRadialGradient(this.x, this.y, this.radius * 0.1, this.x, this.y, this.radius);
+        gradient.addColorStop(0, 'rgba(0, 255, 255, 1)');
+        gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      move() {
+        this.y += this.speed;
+        if (this.y > canvas.height) this.y = 0;
+      }
+    }
+
+    function createStars(num) {
+      stars = [];
+      for(let i = 0; i < num; i++) stars.push(new Star());
+    }
+
+    function updateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.move();
+        star.draw();
+      });
+    }
+
+    canvas.addEventListener('click', (e) => {
+      if (!gameActive) return;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      for(let i = stars.length - 1; i >= 0; i--) {
+        const dx = stars[i].x - clickX;
+        const dy = stars[i].y - clickY;
+        if (Math.sqrt(dx*dx + dy*dy) < stars[i].radius) {
+          stars.splice(i, 1);
+          score += 5;
+          document.querySelector('#starCatcherGame .score-display').textContent = `Puntos: ${score}`;
+          break;
+        }
+      }
+    });
+
+    function gameLoop() {
+      if (!gameActive) return;
+      updateStars();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function initStarCatcher() {
+      score = 0;
+      document.querySelector('#starCatcherGame .score-display').textContent = 'Puntos: 0';
+      createStars(15);
+      gameActive = false;
+      document.getElementById('startStarGame').classList.remove('hidden');
+      document.getElementById('finishStarGame').classList.add('hidden');
+    }
+
+    document.getElementById('startStarGame').addEventListener('click', () => {
+      gameActive = true;
+      gameLoop();
+      document.getElementById('startStarGame').classList.add('hidden');
+      document.getElementById('finishStarGame').classList.remove('hidden');
+    });
+
+    document.getElementById('finishStarGame').addEventListener('click', () => {
+      gameActive = false;
+      guardarPuntuacion(playerName, score, 'Cazador de Estrellas');
+      document.getElementById('starCatcherGame').classList.add('hidden');
+      document.getElementById('seleccion-juego').classList.remove('hidden');
+    });
+
+    // === 3. Adivina el Planeta ===
+    const planets = [
+      { name: "Mercurio", hint: "Es el planeta más cercano al Sol." },
+      { name: "Venus", hint: "Es el planeta más caliente." },
+      { name: "Tierra", hint: "Aquí vivimos nosotros." },
+      { name: "Marte", hint: "Se le conoce como el Planeta Rojo." },
+      { name: "Júpiter", hint: "Es el planeta más grande del sistema solar." }
+    ];
+    let currentPlanetIndex = 0;
+
+    const planetHint = document.getElementById('planetHint');
+    const planetAnswer = document.getElementById('planetAnswer');
+    const planetFeedback = document.getElementById('planetFeedback');
+    const finishGuessGameBtn = document.getElementById('finishGuessGame');
+
+    function initGuessPlanet() {
+      currentPlanetIndex = 0;
+      finishGuessGameBtn.classList.add('hidden');
+      showPlanetHint();
+      planetFeedback.textContent = '';
+      planetAnswer.value = '';
+    }
+
+    function showPlanetHint() {
+      planetHint.textContent = `Pista: ${planets[currentPlanetIndex].hint}`;
+      planetAnswer.value = '';
+      planetFeedback.textContent = '';
+      planetAnswer.focus();
+    }
+
+    document.getElementById('submitPlanet').addEventListener('click', () => {
+      const answer = planetAnswer.value.trim().toLowerCase();
+      if (answer === planets[currentPlanetIndex].name.toLowerCase()) {
+        planetFeedback.textContent = "✅ ¡Correcto!";
+        currentPlanetIndex++;
+        if(currentPlanetIndex >= planets.length) {
+          finishGuessGameBtn.classList.remove('hidden');
+        } else {
+          setTimeout(showPlanetHint, 1500);
+        }
+      } else {
+        planetFeedback.textContent = "❌ Intenta de nuevo.";
+      }
+    });
+
+    finishGuessGameBtn.addEventListener('click', () => {
+      const score = currentPlanetIndex * 10;
+      guardarPuntuacion(playerName, score, 'Adivina el Planeta');
+      document.getElementById('guessPlanetGame').classList.add('hidden');
+      document.getElementById('seleccion-juego').classList.remove('hidden');
+    });
+
+    // === 4. Memoria Galáctica ===
+    const memoryGrid = document.getElementById('memoryGrid');
+    const memoryFeedback = document.getElementById('memoryFeedback');
+    const resetMemoryBtn = document.getElementById('resetMemory');
+    const planetsPairs = [
+      "Mercurio","Mercurio",
+      "Venus","Venus",
+      "Tierra","Tierra",
+      "Marte","Marte",
+      "Júpiter","Júpiter"
+    ];
+    let memoryCards = [];
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+    let matchesFound = 0;
+    let memoryScore = 0;
+
+    function shuffle(array) {
+      let currentIndex = array.length, randomIndex;
+      while(currentIndex !== 0){
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
+    function initMemoryGame() {
+      memoryScore = 0;
+      matchesFound = 0;
+      lockBoard = false;
+      memoryFeedback.textContent = '';
+      memoryCards = shuffle([...planetsPairs]);
+      memoryGrid.innerHTML = '';
+      firstCard = null;
+      secondCard = null;
+
+      memoryCards.forEach((planet, index) => {
+        const card = document.createElement('button');
+        card.className = 'memory-card btn-glow';
+        card.setAttribute('data-planet', planet);
+        card.setAttribute('aria-label', `Carta de ${planet}`);
+        card.textContent = "?";
+        card.addEventListener('click', () => memoryFlip(card));
+        memoryGrid.appendChild(card);
+      });
+    }
+
+    function memoryFlip(card) {
+      if(lockBoard || card === firstCard || card.textContent !== "?") return;
+      card.textContent = card.getAttribute('data-planet');
+
+      if(!firstCard){
+        firstCard = card;
+        return;
+      }
+      secondCard = card;
+      lockBoard = true;
+
+      if(firstCard.getAttribute('data-planet') === secondCard.getAttribute('data-planet')){
+        memoryScore += 10;
+        matchesFound++;
+        memoryFeedback.textContent = `¡Buen trabajo! Puntos: ${memoryScore}`;
+        resetMemoryTurn();
+        if(matchesFound === planetsPairs.length/2){
+          memoryFeedback.textContent = `Juego terminado. Puntuación total: ${memoryScore}`;
+          guardarPuntuacion(playerName, memoryScore, 'Memoria Galáctica');
+          setTimeout(() => {
+            document.getElementById('memoryGame').classList.add('hidden');
+            document.getElementById('seleccion-juego').classList.remove('hidden');
+          }, 3000);
+        }
+      } else {
+        memoryFeedback.textContent = "No coinciden. Intenta de nuevo.";
+        setTimeout(() => {
+          firstCard.textContent = "?";
+          secondCard.textContent = "?";
+          resetMemoryTurn();
+        }, 1000);
+      }
+    }
+
+    function resetMemoryTurn() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    resetMemoryBtn.addEventListener('click', initMemoryGame);
+
+    // === 5. Escape Cósmico ===
+    let escapeNumber = 0;
+    let escapeScore = 0;
+    const escapeInput = document.getElementById('escapeInput');
+    const escapeFeedback = document.getElementById('escapeFeedback');
+    const finishEscapeGameBtn = document.getElementById('finishEscapeGame');
+
+    function initEscapeGame() {
+      escapeScore = 0;
+      escapeNumber = Math.floor(Math.random() * 30) + 1;
+      escapeInput.value = '';
+      escapeFeedback.textContent = '';
+      finishEscapeGameBtn.classList.add('hidden');
+      escapeInput.disabled = false;
+    }
+
+    document.getElementById('submitEscape').addEventListener('click', () => {
+      const guess = Number(escapeInput.value);
+      if (isNaN(guess) || guess < 1 || guess > 30) {
+        escapeFeedback.textContent = "Introduce un número válido entre 1 y 30.";
+        return;
+      }
+      if (guess === escapeNumber) {
+        escapeFeedback.textContent = "🎉 ¡Correcto! Ganaste 20 puntos.";
+        escapeScore = 20;
+        escapeInput.disabled = true;
+        finishEscapeGameBtn.classList.remove('hidden');
+      } else if (guess < escapeNumber) {
+        escapeFeedback.textContent = "El número es mayor.";
+      } else {
+        escapeFeedback.textContent = "El número es menor.";
+      }
+    });
+
+    finishEscapeGameBtn.addEventListener('click', () => {
+      guardarPuntuacion(playerName, escapeScore, 'Escape Cósmico');
+      document.getElementById('escapeGame').classList.add('hidden');
+      document.getElementById('seleccion-juego').classList.remove('hidden');
+    });
+
+    // === Ranking ===
+    function guardarPuntuacion(nombre, puntos, juego) {
+      if(!nombre) return;
+      const ranking = JSON.parse(localStorage.getItem('cosmoRanking')) || [];
+      ranking.push({ nombre, puntos, juego });
+      ranking.sort((a,b) => b.puntos - a.puntos);
+      if(ranking.length > 10) ranking.length = 10;
+      localStorage.setItem('cosmoRanking', JSON.stringify(ranking));
+    }
+
+    function cargarRanking() {
+      const ranking = JSON.parse(localStorage.getItem('cosmoRanking')) || [];
+      const tbody = document.getElementById('rankingBody');
+      tbody.innerHTML = '';
+      if(ranking.length === 0){
+        tbody.innerHTML = '<tr><td colspan="3">No hay puntuaciones guardadas.</td></tr>';
+        return;
+      }
+      ranking.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.nombre}</td><td>${r.puntos}</td><td>${r.juego}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>

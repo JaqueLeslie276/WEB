@@ -1,0 +1,80 @@
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CosmoVenture</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+      <!-- SONIDO DE FONDO GALÁCTICO -->
+  <audio id="bg-sound" src="sound/ambient-space.mp3" autoplay loop></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgSound = document.getElementById("bg-sound");
+
+      // Permite reproducir el sonido tras un clic (por bloqueo de navegador)
+      const enableAudio = () => {
+        bgSound.volume = 0.01; // Puedes ajustar el volumen
+        bgSound.play().catch(() => {});
+        document.removeEventListener("click", enableAudio);
+      };
+
+      document.addEventListener("click", enableAudio);
+    });
+  </script>
+
+    <header>
+      <h1>CosmoVenture 🌠</h1>
+      <nav>
+        <ul>
+          <li><a class="active" href="index.html">Inicio</a></li>
+          <li><a href="universo.html">Universo</a></li>
+          <li><a href="juego.html">Juego</a></li>
+          <li><a href="logros.html">Logros</a></li>
+          <li><a href="ranking.html">Clasificación</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h2>🚀 Explora el Universo</h2>
+          <p>Aprende astronomía mientras juegas y desbloqueas logros galácticos.</p>
+          <a href="juego.html" class="btn">Inicia tu aventura</a>
+        </div>
+        <div class="hero-image">
+          <img src="https://cdn.pixabay.com/photo/2013/07/12/19/18/space-154118_1280.png" alt="" />
+        </div>
+      </section>
+
+      <section class="destacados">
+        <h3>🪐 ¿Qué puedes hacer?</h3>
+        <div class="cards">
+          <a href="universo.html" class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/4144/4144430.png" alt="Explorar" />
+            <h4>Explorar</h4>
+            <p>Conoce los planetas, estrellas y galaxias de forma interactiva.</p>
+          </a>
+          <a href="juego.html" class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="Jugar" />
+            <h4>Jugar</h4>
+            <p>Participa en minijuegos espaciales y gana puntos.</p>
+          </a>
+          <a href="logros.html" class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/584/584973.png" alt="Logros" />
+            <h4>Logros</h4>
+            <p>Desbloquea insignias y premios mientras aprendes.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 CosmoVenture. Proyecto educativo galáctico.</p>
+    </footer>
+  </body>
+  </html>

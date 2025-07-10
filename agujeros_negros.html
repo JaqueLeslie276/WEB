@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agujeros Negros | CosmoVenture</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at center, #888686, #273c9b);
+      background-size: 300% 300%;
+      animation: fondoAnimadoOscuro 30s ease-in-out infinite;
+      color: #eeeeee;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    @keyframes fondoAnimadoOscuro {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .planet-img {
+      display: block;
+      margin: 2rem auto;
+      max-width: 300px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px 15px rgba(100, 100, 100, 0.7);
+      animation: zoomIn 1.5s ease-out;
+    }
+    .info {
+      max-width: 750px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeInUp 1.2s ease;
+    }
+    .highlight {
+      background: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid #888888;
+      padding: 1.2rem;
+      margin: 2rem auto;
+      border-radius: 12px;
+      animation: pulseGlow 2s infinite alternate;
+      color: #ccc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+    ul li::before {
+      content: "⚫ ";
+      margin-right: 8px;
+    }
+    a.volver {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #fff;
+      background: #666;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    a.volver:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="slideDown">⚫ Agujeros Negros</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="universo.html" class="active">Universo</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="info">
+      <img src="agujeros_negros.jpeg" alt="Agujero negro" class="planet-img" />
+      
+      <h2>Regiones de gravedad extrema</h2>
+      <p>
+        Los agujeros negros son zonas en el espacio donde la gravedad es tan fuerte que ni la luz puede escapar. Se forman cuando estrellas muy masivas colapsan.
+      </p>
+
+      <div class="highlight">
+        <h3>🕳️ Dato intenso:</h3>
+        <p>El horizonte de eventos marca el punto sin retorno alrededor de un agujero negro.</p>
+      </div>
+
+      <h3>Características destacadas:</h3>
+      <ul>
+        <li>Gravedad extrema</li>
+        <li>No emiten luz visible</li>
+        <li>Formados por colapso estelar</li>
+        <li>Pueden ser supermasivos</li>
+        <li>Detectados por efectos gravitatorios</li>
+      </ul>
+
+      <a href="universo.html" class="volver">⭠ Volver al Universo</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CosmoVenture | Aprende del universo de forma interactiva ⚫
+  </footer>
+</body>
+</html>

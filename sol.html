@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Sol | CosmoVenture</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at center, #5c44e2, #1a1a1a);
+      background-size: 300% 300%;
+      animation: fondoAnimado 25s ease-in-out infinite;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes fondoAnimado {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .planet-img {
+      display: block;
+      margin: 2rem auto;
+      max-width: 300px;
+      border-radius: 50%;
+      box-shadow: 0 0 25px 10px rgba(255, 200, 0, 0.5);
+      animation: zoomIn 1.5s ease-out;
+    }
+
+    .info {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .highlight {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #ffd700;
+      padding: 1.2rem;
+      margin: 2rem auto;
+      border-radius: 12px;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+
+    ul li::before {
+      content: "☀️ ";
+      margin-right: 8px;
+    }
+
+    a.volver {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #fff;
+      background: #ff9900;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    a.volver:hover {
+      background: #cc7a00;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="slideDown">☀️ El Sol</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="universo.html" class="active">Universo</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="info">
+      <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="El Sol" class="planet-img" />
+
+      <h2>El Corazón Ardiente del Sistema Solar</h2>
+      <p>
+        El Sol es una estrella gigante de tipo enana amarilla, ubicada en el centro de nuestro sistema solar. Es la principal fuente de energía y luz para la vida en la Tierra.
+      </p>
+
+      <div class="highlight">
+        <h3>☄️ Dato brillante:</h3>
+        <p>En cada segundo, el Sol convierte 600 millones de toneladas de hidrógeno en helio a través de fusión nuclear.</p>
+      </div>
+
+      <h3>Características destacadas:</h3>
+      <ul>
+        <li>Tipo: Estrella de secuencia principal (G2V)</li>
+        <li>Edad: 4.6 mil millones de años</li>
+        <li>Temperatura superficial: ~5,500 °C</li>
+        <li>Radio: 696,340 km</li>
+        <li>Distancia a la Tierra: ~149.6 millones de km</li>
+      </ul>
+
+      <a href="universo.html" class="volver">⭠ Volver al Universo</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CosmoVenture | Aprende del universo de forma interactiva ☀️
+  </footer>
+</body>
+</html>

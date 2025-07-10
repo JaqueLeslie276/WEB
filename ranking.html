@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ranking - CosmoVenture</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- SONIDO DE FONDO GALÁCTICO -->
+  <audio id="bg-sound" src="sound/ambient-space.mp3" autoplay loop></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgSound = document.getElementById("bg-sound");
+
+      // Permite reproducir el sonido tras un clic (por bloqueo de navegador)
+      const enableAudio = () => {
+        bgSound.volume = 0.01; // Puedes ajustar el volumen
+        bgSound.play().catch(() => {});
+        document.removeEventListener("click", enableAudio);
+      };
+
+      document.addEventListener("click", enableAudio);
+    });
+  </script>
+
+
+  <header>
+    <h1>Ranking Galáctico</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="universo.html">Universo</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a class="active" href="ranking.html">Clasificación</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="game-section">
+      <h2>Ranking de Jugadores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Jugador</th>
+            <th>Puntos</th>
+            <th>Juego</th>
+          </tr>
+        </thead>
+        <tbody id="tablaRanking">
+          <tr><td colspan="3">Cargando datos...</td></tr>
+        </tbody>
+      </table>
+      <button onclick="window.location.href='juego.html'" class="btn-glow">Volver a Juegos</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 CosmoVenture - Proyecto Educativo</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Configuración de Firebase (reemplaza con tu propia configuración)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      projectId: "TU_PROYECTO_ID",
+      storageBucket: "TU_PROYECTO.appspot.com",
+      messagingSenderId: "TU_MENSAJE_ID",
+      appId: "TU_APP_ID"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const tabla = document.getElementById('tablaRanking');
+
+    async function cargarRanking() {
+      try {
+        const rankingRef = collection(db, "ranking");
+        const q = query(rankingRef, orderBy("puntos", "desc"), limit(10));
+        const querySnapshot = await getDocs(q);
+
+        tabla.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          tabla.innerHTML = `<tr><td colspan="3">No hay datos aún.</td></tr>`;
+          return;
+        }
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${data.nombre}</td>
+            <td>${data.puntos}</td>
+            <td>${data.juego}</td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } catch (error) {
+        tabla.innerHTML = `<tr><td colspan="3">Error al cargar datos: ${error.message}</td></tr>`;
+      }
+    }
+
+    cargarRanking();
+  </script>
+</body>
+</html>

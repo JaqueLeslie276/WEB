@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galaxias | CosmoVenture</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at center, #4d607a, #c4d1f0);
+      background-size: 300% 300%;
+      animation: fondoAnimado 25s ease-in-out infinite;
+      color: #223366;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    @keyframes fondoAnimado {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .planet-img {
+      display: block;
+      margin: 2rem auto;
+      max-width: 350px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px 15px rgba(140, 160, 230, 0.4);
+      animation: zoomIn 1.5s ease-out;
+    }
+    .info {
+      max-width: 850px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeInUp 1.2s ease;
+    }
+    .highlight {
+      background: rgba(255, 255, 255, 0.12);
+      border-left: 4px solid #5566cc;
+      padding: 1.2rem;
+      margin: 2rem auto;
+      border-radius: 12px;
+      animation: pulseGlow 2s infinite alternate;
+      color: #334477;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+    ul li::before {
+      content: "🌟 ";
+      margin-right: 8px;
+    }
+    a.volver {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #fff;
+      background: #5566cc;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    a.volver:hover {
+      background: #4455aa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="slideDown">🌌 Galaxias</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="universo.html" class="active">Universo</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="info">
+      <img src="galaxia.jpeg" alt="Galaxia" class="planet-img" />
+      
+      <h2>Agrupaciones cósmicas</h2>
+      <p>
+        Las galaxias son enormes conjuntos de estrellas, gas y materia oscura. Contienen desde millones hasta billones de estrellas, y forman la estructura básica del universo.
+      </p>
+
+      <div class="highlight">
+        <h3>✨ Dato estelar:</h3>
+        <p>La Vía Láctea, nuestra galaxia, tiene más de 200 mil millones de estrellas.</p>
+      </div>
+
+      <h3>Características destacadas:</h3>
+      <ul>
+        <li>Contienen estrellas, planetas y polvo cósmico</li>
+        <li>Diversos tipos: espirales, elípticas, irregulares</li>
+        <li>Forman estructuras a gran escala</li>
+        <li>Importantes para entender el universo</li>
+        <li>Vía Láctea es una galaxia espiral</li>
+      </ul>
+
+      <a href="universo.html" class="volver">⭠ Volver al Universo</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CosmoVenture | Aprende del universo de forma interactiva 🌌
+  </footer>
+</body>
+</html>

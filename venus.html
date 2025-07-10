@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venus | CosmoVenture</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at center, #20318f, #1a1a1a);
+      background-size: 300% 300%;
+      animation: fondoAnimado 25s ease-in-out infinite;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes fondoAnimado {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .planet-img {
+      display: block;
+      margin: 2rem auto;
+      max-width: 300px;
+      border-radius: 50%;
+      box-shadow: 0 0 25px 10px rgba(255, 140, 60, 0.4);
+      animation: zoomIn 1.5s ease-out;
+    }
+
+    .info {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .highlight {
+      background: rgba(255, 255, 255, 0.08);
+      border-left: 4px solid #f7c188;
+      padding: 1.2rem;
+      margin: 2rem auto;
+      border-radius: 12px;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+
+    ul li::before {
+      content: "🔥 ";
+      margin-right: 8px;
+    }
+
+    a.volver {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #fff;
+      background: #d17034;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    a.volver:hover {
+      background: #b25829;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="slideDown">🔥 Venus</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="universo.html" class="active">Universo</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="info">
+      <img src="Venus.webp" alt="Venus" class="planet-img" />
+
+      <h2>El planeta más caliente del sistema solar</h2>
+      <p>
+        Venus tiene una densa atmósfera de dióxido de carbono que atrapa el calor en su superficie, generando temperaturas superiores a los 460 °C. Su cielo está cubierto por nubes ácidas, y gira en sentido contrario al de la mayoría de los planetas.
+      </p>
+
+      <div class="highlight">
+        <h3>☣️ Dato tóxico:</h3>
+        <p>Las nubes de Venus están compuestas de ácido sulfúrico, ¡un entorno letal incluso para sondas espaciales!</p>
+      </div>
+
+      <h3>Características destacadas:</h3>
+      <ul>
+        <li>Composición: Rocosa</li>
+        <li>Temperatura: ~467 °C</li>
+        <li>Giro retrógrado: rota al revés</li>
+        <li>Atmósfera: Dióxido de carbono denso</li>
+        <li>Sin lunas</li>
+      </ul>
+
+      <a href="universo.html" class="volver">⭠ Volver al Universo</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CosmoVenture | Aprende del universo de forma interactiva 🔥
+  </footer>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CosmoVenture - Logros</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- SONIDO DE FONDO GALÁCTICO -->
+  <audio id="bg-sound" src="sound/ambient-space.mp3" autoplay loop></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgSound = document.getElementById("bg-sound");
+
+      // Permite reproducir el sonido tras un clic (por bloqueo de navegador)
+      const enableAudio = () => {
+        bgSound.volume = 0.01; // Puedes ajustar el volumen
+        bgSound.play().catch(() => {});
+        document.removeEventListener("click", enableAudio);
+      };
+
+      document.addEventListener("click", enableAudio);
+    });
+  </script>
+
+  <header>
+    <h1>CosmoVenture 🏅</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="universo.html">Universo</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="logros.html" class="active">Logros</a></li>
+        <li><a href="ranking.html">Clasificación</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🎖️ Tus Logros Galácticos</h2>
+    <p>¡Sigue jugando para desbloquearlos todos!</p>
+
+    <section class="logros-grid">
+      <article class="logro unlocked" id="logro1">
+        <div class="icon">🚀</div>
+        <h3>Primer Lanzamiento</h3>
+        <p>Jugaste por primera vez.</p>
+      </article>
+
+      <article class="logro" id="logro2">
+        <div class="icon">🌍</div>
+        <h3>Explorador del Sistema Solar</h3>
+        <p>Respondiste correctamente sobre un planeta.</p>
+      </article>
+
+      <article class="logro" id="logro3">
+        <div class="icon">🌟</div>
+        <h3>Cazador Estelar</h3>
+        <p>Obtuviste más de 50 puntos en el segundo juego.</p>
+      </article>
+
+      <article class="logro" id="logro4">
+        <div class="icon">🧠</div>
+        <h3>Sabio del Espacio</h3>
+        <p>Contestaste todas las preguntas correctamente.</p>
+      </article>
+
+      <article class="logro" id="logro5">
+        <div class="icon">🔥</div>
+        <h3>Constancia Cósmica</h3>
+        <p>Visitaste el sitio 3 veces en una semana.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CosmoVenture. Proyecto educativo galáctico.</p>
+  </footer>
+
+  <script>
+    // Marcar logros desbloqueados según localStorage
+    window.onload = () => {
+      if(localStorage.getItem('logro_quiz') === 'true') {
+        document.getElementById('logro2').classList.add('unlocked');
+      }
+      if(localStorage.getItem('logro_estrellas') === 'true') {
+        document.getElementById('logro3').classList.add('unlocked');
+      }
+      // Puedes agregar más condiciones para otros logros aquí
+    };
+  </script>
+</body>
+</html>

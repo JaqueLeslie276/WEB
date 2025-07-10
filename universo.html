@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CosmoVenture | Universo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- SONIDO DE FONDO GALÁCTICO -->
+  <audio id="bg-sound" src="sound/ambient-space.mp3" autoplay loop></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgSound = document.getElementById("bg-sound");
+
+      // Permite reproducir el sonido tras un clic (por bloqueo de navegador)
+      const enableAudio = () => {
+        bgSound.volume = 0.01; // Puedes ajustar el volumen
+        bgSound.play().catch(() => {});
+        document.removeEventListener("click", enableAudio);
+      };
+
+      document.addEventListener("click", enableAudio);
+    });
+  </script>
+
+  <header>
+    <h1>Explora el Universo</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="juego.html">Juego</a></li>
+        <li><a href="universo.html" class="active">Universo</a></li>
+        <li><a href="logros.html">Logros</a></li>
+        <li><a href="ranking.html">Ranking</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Selecciona un elemento del universo para aprender más</h2>
+    <section class="cards">
+
+      <a href="sol.html" class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="Sol" />
+        <h3>El Sol</h3>
+        <p>Descubre el corazón de nuestro sistema solar: su energía, estructura y misterios.</p>
+      </a>
+
+      <a href="mercurio.html" class="card">
+        <img src="mercurio.jpeg" alt="Descripción" />
+        <h3>Mercurio</h3>
+        <p>El planeta más cercano al Sol, con temperaturas extremas y superficie llena de cráteres.</p>
+      </a>
+
+
+      <a href="venus.html" class="card">
+        <img src="Venus.webp" alt="Descripción" />
+        <h3>Venus</h3>
+        <p>Similar en tamaño a la Tierra pero con una atmósfera infernal y temperaturas extremas.</p>
+      </a>
+
+
+      <a href="tierra.html" class="card">
+        <img src="tierra.jpeg" alt="Tierra" />
+        <h3>Tierra</h3>
+        <p>El único planeta conocido con vida, lleno de agua, biodiversidad y movimiento geológico.</p>
+      </a>
+
+
+      <a href="marte.html" class="card">
+        <img src="marte.jpeg" alt="Marte" />
+        <h3>Marte</h3>
+        <p>El planeta rojo: hogar del Olympus Mons y clave en la búsqueda de vida pasada.</p>
+      </a>
+
+
+      <a href="jupiter.html" class="card">
+        <img src="jupiter.jpeg" alt="Júpiter" />
+        <h3>Júpiter</h3>
+        <p>El gigante gaseoso con la Gran Mancha Roja y más de 90 lunas impresionantes.</p>
+      </a>
+
+
+      <a href="saturno.html" class="card">
+        <img src="Saturno.jpeg" alt="Saturno" />
+        <h3>Saturno</h3>
+        <p>Famoso por sus majestuosos anillos, Saturno es un gigante con más de 140 lunas.</p>
+      </a>
+
+
+      <a href="urano.html" class="card">
+        <img src="urano.jpeg" alt="Urano" />
+        <h3>Urano</h3>
+        <p>Un planeta helado que gira de lado, con temperaturas extremas y un descubrimiento histórico.</p>
+      </a>
+
+
+      <a href="neptuno.html" class="card">
+        <img src="neptunp.jpeg" alt="Neptuno" />
+        <h3>Neptuno</h3>
+        <p>El gigante azul con los vientos más rápidos y el clima más extremo del sistema solar.</p>
+      </a>
+
+
+      <a href="luna.html" class="card">
+        <img src="luna.jpeg" alt="Luna" />
+        <h3>Luna</h3>
+        <p>El satélite natural que influye en las mareas y la exploración espacial.</p>
+      </a>
+
+
+      <a href="galaxias.html" class="card">
+        <img src="galaxia.jpeg" alt="Galaxias" />
+        <h3>Galaxias</h3>
+        <p>Enormes agrupaciones de estrellas y materia oscura, las verdaderas ciudades del cosmos.</p>
+      </a>
+
+
+      <a href="agujeros_negros.html" class="card">
+        <img src="agujeros_negros.jpeg" alt="Agujeros Negros" />
+        <h3>Agujeros Negros</h3>
+        <p>Regiones con gravedad extrema donde ni la luz puede escapar.</p>
+      </a>
+
+
+    </section>
+  </main>
+
+  <footer>
+    © 2025 CosmoVenture | Aprende del universo de forma interactiva 🚀
+  </footer>
+</body>
+</html>
